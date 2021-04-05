@@ -1,5 +1,22 @@
 body {
-  background-color: #e8ecef;
+  background-color: #1a1a1a;
+  color: #e8ecef;
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.card {
+  background-color: #222222;
+  border-radius: 1rem;
+}
+
+.jumbotron {
+  background-color: #1a1a1a;
 }
 
 .centered {
@@ -12,4 +29,5 @@ body {
   font-size: 2rem;
   color: #fff;
   background-color: #000;
+  border-radius: 1rem;
 }
