@@ -6,7 +6,8 @@
   "dependencies": {
     "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "mongoose": "^5.12.3"
+    "mongoose": "^5.12.3",
+    "mongoose-encryption": "^2.1.0"
   },
   "devDependencies": {},
   "scripts": {

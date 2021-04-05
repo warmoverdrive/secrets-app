@@ -6,6 +6,7 @@
 
 const express = require("express");
 const mongoose = require("mongoose");
+const encrypt = require("mongoose-encryption");
 const ejs = require("ejs");
 
 const app = express();
@@ -28,6 +29,14 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
 });
+
+// set up encryption secret and apply it to password key in schema.
+const secret = "ThisIsOurLittleSecret"; // <-- this is way too exposed
+userSchema.plugin(encrypt, {
+  secret: secret,
+  encryptedFields: ["password"],
+});
+
 const User = new mongoose.model("User", userSchema);
 
 //==============================================================//
