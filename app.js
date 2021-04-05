@@ -4,6 +4,7 @@
 // Set-up
 //==============================================================//
 
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const encrypt = require("mongoose-encryption");
@@ -31,9 +32,8 @@ const userSchema = new mongoose.Schema({
 });
 
 // set up encryption secret and apply it to password key in schema.
-const secret = "ThisIsOurLittleSecret"; // <-- this is way too exposed
 userSchema.plugin(encrypt, {
-  secret: secret,
+  secret: process.env.SECRET_KEY,
   encryptedFields: ["password"],
 });
 
@@ -58,7 +58,7 @@ app
 
     User.findOne({ email: username }, (err, user) => {
       if (err) {
-        log.error(err);
+        console.log(err);
       } else {
         if (user) {
           if (user.password === password) {
