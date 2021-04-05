@@ -4,11 +4,14 @@
 // Set-up
 //==============================================================//
 
+// we arent using dotenv anymore here but
+// if there are API keys this is where we'd store it
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const md5 = require("md5");
 const ejs = require("ejs");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 const app = express();
 
@@ -48,19 +51,20 @@ app
   })
   .post((req, res) => {
     const username = req.body.username;
-    const password = req.body.password;
 
     User.findOne({ email: username }, (err, user) => {
       if (err) {
         console.log(err);
       } else {
         if (user) {
-          if (user.password === md5(password)) {
-            res.render("secrets");
-          } else {
-            console.log("incorrect password");
-            res.redirect("/login");
-          }
+          bcrypt.compare(req.body.password, user.password, (err, result) => {
+            if (result) {
+              res.render("secrets");
+            } else {
+              console.log("Incorrect password");
+              res.redirect("/login");
+            }
+          });
         } else {
           console.log("unknown email");
           res.redirect("/login");
@@ -75,16 +79,21 @@ app
     res.render("register");
   })
   .post((req, res) => {
-    const newUser = new User({
-      email: req.body.username,
-      password: md5(req.body.password),
-    });
-
-    newUser.save((err) => {
+    bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
       if (err) {
         console.log(err);
       } else {
-        res.render("secrets");
+        const newUser = new User({
+          email: req.body.username,
+          password: hash,
+        });
+        newUser.save((err) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.render("secrets");
+          }
+        });
       }
     });
   });
