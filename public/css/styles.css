@@ -10,8 +10,18 @@ hr {
   border-top: 1px solid rgba(255, 255, 255, 0.5);
 }
 
+.btn {
+  background-color: #222222;
+  color: #e8ecef;
+}
+
+.myhvr:hover {
+  color: #6daceb;
+}
+
 .card {
   background-color: #222222;
+  color: #e8ecef;
   border-radius: 1rem;
 }
 
